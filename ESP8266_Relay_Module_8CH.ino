@@ -42,14 +42,16 @@ void getWifi()
   WiFi.config(ip, dns, gateway, subnet);
   WiFi.begin(ssid, pass);
   int xc = 0;
-  while (WiFi.status() != WL_CONNECTED && xc < 10)
+  while (WiFi.status() != WL_CONNECTED && xc < 50)
   {
+    Serial.println("waiting....");
     delay(500);
     xc++;
   }
   Serial.println("");
   if (WiFi.status() == WL_CONNECTED)
   {
+    Serial.println("Status=WL_CONNECTED");
     Serial.print("CONNECTED To: ");
     Serial.println(ssid);
     Serial.print("IP Address: http://");
@@ -58,6 +60,7 @@ void getWifi()
   }
   else
   {
+    Serial.println("Status= NOT WL_CONNECTED");
     WiFi.softAPConfig(ip, gatewayap, subnet);
     WiFi.softAP(Apssid, Appassword);
     Serial.print("CONNECTED To: ");

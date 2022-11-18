@@ -41,31 +41,31 @@ document.getElementById("datetime").innerHTML = (dow) +" "+ (dt.toLocaleString()
                             State8 = this.responseXML.getElementsByTagName("analog")[7].childNodes[0].nodeValue;
     }
     if (State1 != 0) {
-    var codeBlock1 = '<button type="submit" class="button-on">Tower One Short (ON)</button>';
+    var codeBlock1 = '<button type="submit" class="button-on">Tower 1 Short (ON)</button>';
     document.getElementById("statled1").innerHTML = codeBlock1;
   } else {
-    var codeBlock1 = '<button type="submit" class="button-off">Tower One Open (OFF)</button>';
+    var codeBlock1 = '<button type="submit" class="button-off">Tower 1 Open (OFF)</button>';
     document.getElementById("statled1").innerHTML = codeBlock1;
   }
     if (State2 != 0) {
-    var codeBlock2 = '<button type="submit" class="button-on">Relay2 ON</button>';
+    var codeBlock2 = '<button type="submit" class="button-on">Tower 2 Short (ON)</button>';
     document.getElementById("statled2").innerHTML = codeBlock2;
   } else {
-    var codeBlock2 = '<button type="submit" class="button-off">Relay2 OFF</button>';
+    var codeBlock2 = '<button type="submit" class="button-off">Tower 2 Open (Off)</button>';
     document.getElementById("statled2").innerHTML = codeBlock2;
   }
     if (State3 != 0) {
-    var codeBlock3 = '<button type="submit" class="button-on">Relay3 ON</button>';
+    var codeBlock3 = '<button type="submit" class="button-on">Ant SW Closed (ON)</button>';
     document.getElementById("statled3").innerHTML = codeBlock3;
   } else {
-    var codeBlock3 = '<button type="submit" class="button-off">Relay3 OFF</button>';
+    var codeBlock3 = '<button type="submit" class="button-off">Ant SW Closed (OFF)</button>';
     document.getElementById("statled3").innerHTML = codeBlock3;
   }
     if (State4 != 0) {
-    var codeBlock4 = '<button type="submit" class="button-on">Relay4 ON</button>';
+    var codeBlock4 = '<button type="submit" class="button-on">Ant SW Separated (ON)</button>';
     document.getElementById("statled4").innerHTML = codeBlock4;
   } else {
-    var codeBlock4 = '<button type="submit" class="button-off">Relay4 OFF</button>';
+    var codeBlock4 = '<button type="submit" class="button-off">Ant SW Separated (OFF)</button>';
     document.getElementById("statled4").innerHTML = codeBlock4;
   }
     if (State5 != 0) {
@@ -153,7 +153,7 @@ button {
   border: #fbfb00 solid 3px;
   background-color: #0000ff;
   color:white;
-  font-size:30px;
+  font-size:15px;
   padding-bottom:5px;
   font-weight:600;
   -moz-border-radius: 10px;
@@ -171,7 +171,7 @@ button:hover {
   border: #fbfb00 solid 3px;
   background-color: #00ff00;
   color:#000000;
-  font-size:33px;
+  font-size:15px;
   padding-bottom:5px;
   font-weight:700;
   -moz-border-radius: 12px;
@@ -188,7 +188,7 @@ button:hover {
   border: #fbfb00 solid 3px;
   background-color: #ff0000;
   color:#ffffff;
-  font-size:33px;
+  font-size:15px;
   padding-bottom:5px;
   font-weight:700;
   -moz-border-radius: 12px;
@@ -235,7 +235,7 @@ button:hover {
   .data-input {
   text-align: center;
   background-color: #bbbbff;
-  font-size:26px;
+  font-size:15px;
   color:red;
   border: 5px solid #444444;
   -moz-border-radius: 7px;
@@ -263,7 +263,7 @@ button:hover {
   border: #fbfb00 solid 3px;
   background-color: red;
   color:#ffffff;
-  font-size:30px;
+  font-size:15px;
   padding-bottom:5px;
   font-weight:700;
   -moz-border-radius: 7px;
@@ -315,9 +315,11 @@ button:hover {
   </tr>
    <tr>
         <td style='width:40%'>
+  <!--
   <form action="/allon" method="POST">
       <button type="submit" class="button">All Relay ON</button>
   </form></td>
+  -->
         <td style='width:40%'>
   <form action="/alloff" method="POST">
       <button type="submit" class="button">All Relay OFF</button>
