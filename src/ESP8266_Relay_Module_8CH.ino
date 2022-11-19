@@ -14,8 +14,8 @@
 ESP8266WebServer server(80);
 int relay1 = 5, relay2 = 4, relay3 = 0, relay4 = 15;
 int relay5 = 13, relay6 = 12, relay7 = 14, relay8 = 16;
-int state1 = HIGH, state2 = HIGH, state3 = HIGH, state4 = HIGH;
-int state5 = HIGH, state6 = HIGH, state7 = HIGH, state8 = HIGH;
+int state1 = LOW, state2 = LOW, state3 = LOW, state4 = LOW;
+int state5 = LOW, state6 = LOW, state7 = LOW, state8 = LOW;
 
 //***************************************************
 // Change these to suit your network!
@@ -23,11 +23,11 @@ char ssid[30] = "";
 char pass[30] = "";
 //***************************************************
 
-const char *Apssid = "ESP8266-Relay";
+const char *Apssid = "ESP8266-Relay-Ant-Protection";
 const char *Appassword = "3tawi-GP";
-IPAddress ip(192, 168, 3, 62);
-IPAddress dns(192, 168, 3, 1);
-IPAddress gateway(192, 168, 3, 1);
+IPAddress ip(192, 168, 1, 62);
+IPAddress dns(192, 168, 1, 1);
+IPAddress gateway(192, 168, 1, 1);
 IPAddress gatewayap(192, 168, 4, 1);
 IPAddress subnet(255, 255, 255, 0);
 
@@ -40,8 +40,8 @@ long savednum = 0, passnum = 0;
 #define LATCH_TIMEOUT_SEC 10
 #define LATCH_TIMEOUT_COUNT (LATCH_TIMEOUT_SEC * DELAYS_PER_SECOND)
 
-int latchcounter3 = 0;
-int latchcounter4 = 0;
+int latchcounter5 = 0;
+int latchcounter6 = 0;
 
 void (*resetFunc)(void) = 0; // declare reset function at address 0
 
@@ -110,53 +110,53 @@ void handleWifi()
   getWifi();
 }
 
-void setlatch_3()
+void setlatch_5()
 {
   handleRoot();
-  if ((latchcounter3 == 0) && (latchcounter4 == 0))
+  if ((latchcounter5 == 0) && (latchcounter6 == 0))
   {
-    latchcounter3 = LATCH_TIMEOUT_COUNT;
+    latchcounter5 = LATCH_TIMEOUT_COUNT;
 
-    state3 = HIGH;
-    digitalWrite(relay3, state3);
-    EEPROM.write(3, state3);
+    state5 = HIGH;
+    digitalWrite(relay5, state5);
+    EEPROM.write(5, state5);
     EEPROM.commit();
   }
 }
 
-void setlatch_4()
+void setlatch_6()
 {
   handleRoot();
-  if ((latchcounter3 == 0) && (latchcounter4 == 0))
+  if ((latchcounter5 == 0) && (latchcounter6 == 0))
   {
-    latchcounter4 = LATCH_TIMEOUT_COUNT;
+    latchcounter6 = LATCH_TIMEOUT_COUNT;
 
-    state4 = HIGH;
-    digitalWrite(relay4, state4);
-    EEPROM.write(4, state4);
+    state6 = HIGH;
+    digitalWrite(relay6, state6);
+    EEPROM.write(6, state6);
     EEPROM.commit();
   }
 }
 
-void clearlatch_3()
+void clearlatch_5()
 {
   handleRoot();
 
-  state3 = LOW;
+  state5 = LOW;
 
-  digitalWrite(relay3, state3);
-  EEPROM.write(3, state3);
+  digitalWrite(relay5, state5);
+  EEPROM.write(5, state5);
   EEPROM.commit();
 }
 
-void clearlatch_4()
+void clearlatch_6()
 {
   handleRoot();
 
-  state4 = LOW;
+  state6 = LOW;
 
-  digitalWrite(relay4, state4);
-  EEPROM.write(4, state4);
+  digitalWrite(relay6, state6);
+  EEPROM.write(6, state6);
   EEPROM.commit();
 }
 
@@ -235,15 +235,16 @@ void handlestate8()
 void handleallon()
 {
   handleRoot();
-  state1 = HIGH, state2 = HIGH, state3 = HIGH, state4 = HIGH;
-  state5 = HIGH, state6 = HIGH, state7 = HIGH, state8 = HIGH;
+  state1 = HIGH, state2 = HIGH;
+  state3 = HIGH, state4 = HIGH;
+  state7 = HIGH, state8 = HIGH;
   setrelaystate();
   EEPROM.write(1, state1);
   EEPROM.write(2, state2);
-  //EEPROM.write(3, state3);
-  //EEPROM.write(4, state4);
-  EEPROM.write(5, state5);
-  EEPROM.write(6, state6);
+  EEPROM.write(3, state3);
+  EEPROM.write(4, state4);
+  //EEPROM.write(5, state5);
+  //EEPROM.write(6, state6);
   EEPROM.write(7, state7);
   EEPROM.write(8, state8);
   EEPROM.commit();
@@ -333,13 +334,6 @@ void getpass()
 
 void setup()
 {
-  Serial.begin(115200);
-  EEPROM.begin(EEPROM_SIZE);
-  LittleFS.begin();
-  getssid();
-  getpass();
-  WiFi.mode(WIFI_STA);
-  getWifi();
   pinMode(relay1, OUTPUT);
   pinMode(relay2, OUTPUT);
   pinMode(relay3, OUTPUT);
@@ -348,14 +342,23 @@ void setup()
   pinMode(relay6, OUTPUT);
   pinMode(relay7, OUTPUT);
   pinMode(relay8, OUTPUT);
+  setrelaystate();
+
+  Serial.begin(115200);
+  EEPROM.begin(EEPROM_SIZE);
+  LittleFS.begin();
+  getssid();
+  getpass();
+  WiFi.mode(WIFI_STA);
+  getWifi();
   server.on("/", handleRoot);
   server.on("/Mywifi", handleWifi);
   server.on("/LED1", handlestate1);
   server.on("/LED2", handlestate2);
-  server.on("/LED3", setlatch_3);
-  server.on("/LED4", setlatch_4);
-  server.on("/LED5", handlestate5);
-  server.on("/LED6", handlestate6);
+  server.on("/LED3", handlestate3);
+  server.on("/LED4", handlestate4);
+  server.on("/LED5", setlatch_5);
+  server.on("/LED6", setlatch_6);
   server.on("/LED7", handlestate7);
   server.on("/LED8", handlestate8);
   server.on("/allon", handleallon);
@@ -363,30 +366,35 @@ void setup()
   server.on("/redstate", handlestate);
   server.on("/restesp", handleRestesp);
   server.begin();
+
+  EEPROM.write(5, LOW);
+  EEPROM.write(6, LOW);
+  EEPROM.commit();
+
   getstate();
 }
 
 void handleCounters(void)
 {
   // check if the latch is active
-  if (latchcounter3 > 0)
+  if (latchcounter5 > 0)
   {
     // decrement the count
-    latchcounter3--;
-    if (latchcounter3 == 0)
+    latchcounter5--;
+    if (latchcounter5 == 0)
     {
       // if expired, reset the latched relays and update the relay states
-      clearlatch_3();
+      clearlatch_5();
     }
   }
-  if (latchcounter4 > 0)
+  if (latchcounter6 > 0)
   {
     // decrement the count
-    latchcounter4--;
-    if (latchcounter4 == 0)
+    latchcounter6--;
+    if (latchcounter6 == 0)
     {
       // if expired, reset the latched relays and update the relay states
-      clearlatch_4();
+      clearlatch_6();
     }
   }
 }
@@ -395,7 +403,7 @@ void loop()
 {
   handleCounters();
   server.handleClient();
-  delay(50);
+  delay(DELAY_MS);
 }
 
 void setrelaystate()

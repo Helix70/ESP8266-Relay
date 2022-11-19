@@ -41,45 +41,45 @@ document.getElementById("datetime").innerHTML = (dow) +" "+ (dt.toLocaleString()
                             State8 = this.responseXML.getElementsByTagName("analog")[7].childNodes[0].nodeValue;
     }
     if (State1 != 0) {
-    var codeBlock1 = '<button type="submit" class="button-on">Tower 1 Short (ON)</button>';
+    var codeBlock1 = '<button type="submit" class="button-on">Tower 1 Open</button>';
     document.getElementById("statled1").innerHTML = codeBlock1;
   } else {
-    var codeBlock1 = '<button type="submit" class="button-off">Tower 1 Open (OFF)</button>';
+    var codeBlock1 = '<button type="submit" class="button-off">Tower 1 Short</button>';
     document.getElementById("statled1").innerHTML = codeBlock1;
   }
     if (State2 != 0) {
-    var codeBlock2 = '<button type="submit" class="button-on">Tower 2 Short (ON)</button>';
+    var codeBlock2 = '<button type="submit" class="button-on">Tower 2 Open</button>';
     document.getElementById("statled2").innerHTML = codeBlock2;
   } else {
-    var codeBlock2 = '<button type="submit" class="button-off">Tower 2 Open (Off)</button>';
+    var codeBlock2 = '<button type="submit" class="button-off">Tower 2 Short</button>';
     document.getElementById("statled2").innerHTML = codeBlock2;
   }
     if (State3 != 0) {
-    var codeBlock3 = '<button type="submit" class="button-on-latch">Ant SW Closed (ON)</button>';
+    var codeBlock3 = '<button type="submit" class="button-on">Relay3 ON</button>';
     document.getElementById("statled3").innerHTML = codeBlock3;
   } else {
-    var codeBlock3 = '<button type="submit" class="button-off">Ant SW Closed (OFF)</button>';
+    var codeBlock3 = '<button type="submit" class="button-off">Relay3 OFF</button>';
     document.getElementById("statled3").innerHTML = codeBlock3;
   }
     if (State4 != 0) {
-    var codeBlock4 = '<button type="submit" class="button-on-latch">Ant SW Separated (ON)</button>';
+    var codeBlock4 = '<button type="submit" class="button-on">Relay4 ON</button>';
     document.getElementById("statled4").innerHTML = codeBlock4;
   } else {
-    var codeBlock4 = '<button type="submit" class="button-off">Ant SW Separated (OFF)</button>';
+    var codeBlock4 = '<button type="submit" class="button-off">Relay4 OFF</button>';
     document.getElementById("statled4").innerHTML = codeBlock4;
   }
     if (State5 != 0) {
-    var codeBlock5 = '<button type="submit" class="button-on">Relay5 ON</button>';
+    var codeBlock5 = '<button type="submit" class="button-on-latch">Ant SW Closing</button>';
     document.getElementById("statled5").innerHTML = codeBlock5;
   } else {
-    var codeBlock5 = '<button type="submit" class="button-off">Relay5 OFF</button>';
+    var codeBlock5 = '<button type="submit" class="button-off">Ant SW Closed</button>';
     document.getElementById("statled5").innerHTML = codeBlock5;
   }
     if (State6 != 0) {
-    var codeBlock6 = '<button type="submit" class="button-on">Relay6 ON</button>';
+    var codeBlock6 = '<button type="submit" class="button-on-latch">Ant SW Separating</button>';
     document.getElementById("statled6").innerHTML = codeBlock6;
   } else {
-    var codeBlock6 = '<button type="submit" class="button-off">Relay6 OFF</button>';
+    var codeBlock6 = '<button type="submit" class="button-off">Ant SW Separated</button>';
     document.getElementById("statled6").innerHTML = codeBlock6;
   }
     if (State7 != 0) {
