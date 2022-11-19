@@ -25,15 +25,23 @@ char pass[30] = "";
 
 const char *Apssid = "ESP8266-Relay";
 const char *Appassword = "3tawi-GP";
-IPAddress ip(192, 168, 1, 62);
-IPAddress dns(192, 168, 1, 1);
-IPAddress gateway(192, 168, 1, 1);
+IPAddress ip(192, 168, 3, 62);
+IPAddress dns(192, 168, 3, 1);
+IPAddress gateway(192, 168, 3, 1);
 IPAddress gatewayap(192, 168, 4, 1);
 IPAddress subnet(255, 255, 255, 0);
 
 File myfile;
 String text;
 long savednum = 0, passnum = 0;
+
+#define DELAY_MS 50
+#define DELAYS_PER_SECOND (1000 / DELAY_MS)
+#define LATCH_TIMEOUT_SEC 10
+#define LATCH_TIMEOUT_COUNT (LATCH_TIMEOUT_SEC * DELAYS_PER_SECOND)
+
+int latchcounter3 = 0;
+int latchcounter4 = 0;
 
 void (*resetFunc)(void) = 0; // declare reset function at address 0
 
@@ -71,11 +79,13 @@ void getWifi()
     Serial.println(WiFi.softAPIP().toString().c_str());
   }
 }
+
 void handleRoot()
 {
   String s = MAIN_page;             // Read HTML contents
   server.send(200, "text/html", s); // Send web page
 }
+
 void handleWifi()
 {
   handleRoot();
@@ -99,6 +109,57 @@ void handleWifi()
   text.toCharArray(pass, len);
   getWifi();
 }
+
+void setlatch_3()
+{
+  handleRoot();
+  if ((latchcounter3 == 0) && (latchcounter4 == 0))
+  {
+    latchcounter3 = LATCH_TIMEOUT_COUNT;
+
+    state3 = HIGH;
+    digitalWrite(relay3, state3);
+    EEPROM.write(3, state3);
+    EEPROM.commit();
+  }
+}
+
+void setlatch_4()
+{
+  handleRoot();
+  if ((latchcounter3 == 0) && (latchcounter4 == 0))
+  {
+    latchcounter4 = LATCH_TIMEOUT_COUNT;
+
+    state4 = HIGH;
+    digitalWrite(relay4, state4);
+    EEPROM.write(4, state4);
+    EEPROM.commit();
+  }
+}
+
+void clearlatch_3()
+{
+  handleRoot();
+
+  state3 = LOW;
+
+  digitalWrite(relay3, state3);
+  EEPROM.write(3, state3);
+  EEPROM.commit();
+}
+
+void clearlatch_4()
+{
+  handleRoot();
+
+  state4 = LOW;
+
+  digitalWrite(relay4, state4);
+  EEPROM.write(4, state4);
+  EEPROM.commit();
+}
+
 void handlestate1()
 {
   handleRoot();
@@ -107,6 +168,7 @@ void handlestate1()
   EEPROM.write(1, state1);
   EEPROM.commit();
 }
+
 void handlestate2()
 {
   handleRoot();
@@ -115,6 +177,7 @@ void handlestate2()
   EEPROM.write(2, state2);
   EEPROM.commit();
 }
+
 void handlestate3()
 {
   handleRoot();
@@ -123,6 +186,7 @@ void handlestate3()
   EEPROM.write(3, state3);
   EEPROM.commit();
 }
+
 void handlestate4()
 {
   handleRoot();
@@ -131,6 +195,7 @@ void handlestate4()
   EEPROM.write(4, state4);
   EEPROM.commit();
 }
+
 void handlestate5()
 {
   handleRoot();
@@ -139,6 +204,7 @@ void handlestate5()
   EEPROM.write(5, state5);
   EEPROM.commit();
 }
+
 void handlestate6()
 {
   handleRoot();
@@ -147,6 +213,7 @@ void handlestate6()
   EEPROM.write(6, state6);
   EEPROM.commit();
 }
+
 void handlestate7()
 {
   handleRoot();
@@ -155,6 +222,7 @@ void handlestate7()
   EEPROM.write(7, state7);
   EEPROM.commit();
 }
+
 void handlestate8()
 {
   handleRoot();
@@ -163,6 +231,7 @@ void handlestate8()
   EEPROM.write(8, state8);
   EEPROM.commit();
 }
+
 void handleallon()
 {
   handleRoot();
@@ -171,14 +240,15 @@ void handleallon()
   setrelaystate();
   EEPROM.write(1, state1);
   EEPROM.write(2, state2);
-  EEPROM.write(3, state3);
-  EEPROM.write(4, state4);
+  //EEPROM.write(3, state3);
+  //EEPROM.write(4, state4);
   EEPROM.write(5, state5);
   EEPROM.write(6, state6);
   EEPROM.write(7, state7);
   EEPROM.write(8, state8);
   EEPROM.commit();
 }
+
 void handlealloff()
 {
   handleRoot();
@@ -195,6 +265,7 @@ void handlealloff()
   EEPROM.write(8, state8);
   EEPROM.commit();
 }
+
 void handlestate()
 {
   String content = "<?xml version = \"1.0\" ?>";
@@ -218,12 +289,14 @@ void handlestate()
   server.sendHeader("Cache-Control", "no-cache");
   server.send(200, "text/xml", content); // Send web page
 }
+
 void handleRestesp()
 {
   handleRoot();
   delay(1000);
   resetFunc();
 }
+
 void getssid()
 {
   myfile = LittleFS.open("/Ssid.txt", "r");
@@ -240,6 +313,7 @@ void getssid()
   }
   myfile.close();
 }
+
 void getpass()
 {
   myfile = LittleFS.open("/Password.txt", "r");
@@ -256,6 +330,7 @@ void getpass()
   }
   myfile.close();
 }
+
 void setup()
 {
   Serial.begin(115200);
@@ -277,8 +352,8 @@ void setup()
   server.on("/Mywifi", handleWifi);
   server.on("/LED1", handlestate1);
   server.on("/LED2", handlestate2);
-  server.on("/LED3", handlestate3);
-  server.on("/LED4", handlestate4);
+  server.on("/LED3", setlatch_3);
+  server.on("/LED4", setlatch_4);
   server.on("/LED5", handlestate5);
   server.on("/LED6", handlestate6);
   server.on("/LED7", handlestate7);
@@ -290,11 +365,39 @@ void setup()
   server.begin();
   getstate();
 }
+
+void handleCounters(void)
+{
+  // check if the latch is active
+  if (latchcounter3 > 0)
+  {
+    // decrement the count
+    latchcounter3--;
+    if (latchcounter3 == 0)
+    {
+      // if expired, reset the latched relays and update the relay states
+      clearlatch_3();
+    }
+  }
+  if (latchcounter4 > 0)
+  {
+    // decrement the count
+    latchcounter4--;
+    if (latchcounter4 == 0)
+    {
+      // if expired, reset the latched relays and update the relay states
+      clearlatch_4();
+    }
+  }
+}
+
 void loop()
 {
+  handleCounters();
   server.handleClient();
   delay(50);
 }
+
 void setrelaystate()
 {
   digitalWrite(relay1, state1);
@@ -306,6 +409,7 @@ void setrelaystate()
   digitalWrite(relay7, state7);
   digitalWrite(relay8, state8);
 }
+
 void getstate()
 {
   state1 = EEPROM.read(1);

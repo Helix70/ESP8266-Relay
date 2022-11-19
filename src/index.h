@@ -55,14 +55,14 @@ document.getElementById("datetime").innerHTML = (dow) +" "+ (dt.toLocaleString()
     document.getElementById("statled2").innerHTML = codeBlock2;
   }
     if (State3 != 0) {
-    var codeBlock3 = '<button type="submit" class="button-on">Ant SW Closed (ON)</button>';
+    var codeBlock3 = '<button type="submit" class="button-on-latch">Ant SW Closed (ON)</button>';
     document.getElementById("statled3").innerHTML = codeBlock3;
   } else {
     var codeBlock3 = '<button type="submit" class="button-off">Ant SW Closed (OFF)</button>';
     document.getElementById("statled3").innerHTML = codeBlock3;
   }
     if (State4 != 0) {
-    var codeBlock4 = '<button type="submit" class="button-on">Ant SW Separated (ON)</button>';
+    var codeBlock4 = '<button type="submit" class="button-on-latch">Ant SW Separated (ON)</button>';
     document.getElementById("statled4").innerHTML = codeBlock4;
   } else {
     var codeBlock4 = '<button type="submit" class="button-off">Ant SW Separated (OFF)</button>';
@@ -99,8 +99,7 @@ document.getElementById("datetime").innerHTML = (dow) +" "+ (dt.toLocaleString()
   }
   xhttp.open("GET", "redstate", true);
   xhttp.send();
-            setTimeout('GetState()', 4000);
-            
+            setTimeout('GetState()', 1000);
         };
       document.addEventListener('DOMContentLoaded', function() {
         DisplayCurrentTime(),GetState();
@@ -164,7 +163,7 @@ button:hover {
   text-shadow: 2px 2px #ff0000;
   opacity: 0.8;
 }
-  .button-on {
+ .button-on {
   padding: 5px 5px 5px 5px;
   text-shadow: 2px 2px #ffffff;
   width: 80%;
@@ -178,6 +177,29 @@ button:hover {
   -webkit-border-radius: 12px;
   }
   .button-on:hover {
+  text-shadow: 2px 2px #444400;
+  opacity: 0.8;
+  }
+ .button-on-latch {
+  padding: 5px 5px 5px 5px;
+  text-shadow: 2px 2px #ffffff;
+  width: 80%;
+  border: #fbfb00 solid 3px;
+  background-color: #00FF00;
+  color:#000000;
+  font-size:15px;
+  padding-bottom:5px;
+  font-weight:700;
+  animation: blinkingBackground 1s infinite;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  }
+  @keyframes blinkingBackground{
+		0%		{ background-color: #008000;}
+		50%		{ background-color: #32CD32;}
+		100%	{ background-color: #00FF00;}
+	}
+  .button-on-latch:hover {
   text-shadow: 2px 2px #444400;
   opacity: 0.8;
   }
@@ -197,6 +219,9 @@ button:hover {
   .button-off:hover {
   text-shadow: 2px 2px #ffffff;
   opacity: 0.8;
+  }
+  .button-home {
+    background-color: #BA55D3;
   }
 
 /* Modal Content/Box */
@@ -320,6 +345,9 @@ button:hover {
       <button type="submit" class="button">All Relay ON</button>
   </form></td>
   -->
+  <form action="/" method="POST">
+      <button type="submit" class="button-home">Home</button>
+  </form></td>
         <td style='width:40%'>
   <form action="/alloff" method="POST">
       <button type="submit" class="button">All Relay OFF</button>
