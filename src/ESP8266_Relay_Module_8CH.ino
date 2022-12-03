@@ -25,6 +25,7 @@ char pass[30] = "";
 
 const char *Apssid = "ESP8266-Relay-Ant-Protection";
 const char *Appassword = "3tawi-GP";
+
 IPAddress ip(192, 168, 1, 62);
 IPAddress dns(192, 168, 1, 1);
 IPAddress gateway(192, 168, 1, 1);
@@ -35,7 +36,7 @@ File myfile;
 String text;
 long savednum = 0, passnum = 0;
 
-#define DELAY_MS 50
+#define DELAY_MS 5
 #define DELAYS_PER_SECOND (1000 / DELAY_MS)
 #define LATCH_TIMEOUT_SEC 10
 #define LATCH_TIMEOUT_COUNT (LATCH_TIMEOUT_SEC * DELAYS_PER_SECOND)
