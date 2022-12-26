@@ -3,7 +3,7 @@ const char MAIN_page[] PROGMEM = R"=====(
 <html>
 
 <head>
-  <title>ESP8266 - Relay Module - Great Projects</title>
+  <title>Band Selector</title>
   <script>
     var State1;
     var State2;
