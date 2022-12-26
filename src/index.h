@@ -3,7 +3,7 @@ const char MAIN_page[] PROGMEM = R"=====(
 <html>
 
 <head>
-  <title>ESP8266 - Relay Module - Great Projects</title>
+  <title>19 Inch Rack</title>
   <script>
     var State1;
     var State2;
@@ -69,10 +69,10 @@ const char MAIN_page[] PROGMEM = R"=====(
           document.getElementById("statled4").innerHTML = codeBlock4;
         }
         if (State5 != 0) {
-          var codeBlock5 = '<button type="submit" class="button-on">Relay5 On</button>';
+          var codeBlock5 = '<button type="submit" class="button-on">SteppIR On</button>';
           document.getElementById("statled5").innerHTML = codeBlock5;
         } else {
-          var codeBlock5 = '<button type="submit" class="button-off">Relay5 Off</button>';
+          var codeBlock5 = '<button type="submit" class="button-off">SteppIR Off</button>';
           document.getElementById("statled5").innerHTML = codeBlock5;
         }
         if (State6 != 0) {
