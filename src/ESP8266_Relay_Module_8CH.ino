@@ -9,6 +9,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include "index.h"
+#include "credentials.h"   // put overrides for ssid, pass, ip, dns, gateway etc here
 
 #define EEPROM_SIZE 9
 ESP8266WebServer server(80);
@@ -17,20 +18,19 @@ int relay5 = 13, relay6 = 12, relay7 = 14, relay8 = 16;
 int state1 = LOW, state2 = LOW, state3 = LOW, state4 = LOW;
 int state5 = LOW, state6 = LOW, state7 = LOW, state8 = LOW;
 
-//***************************************************
-// Change these to suit your network!
-char ssid[30] = "";
-char pass[30] = "";
-//***************************************************
 
-const char *Apssid = "ESP8266-Relay-Ant-Protection";
-const char *Appassword = "3tawi-GP";
-
-IPAddress ip(192, 168, 1, 62);
-IPAddress dns(192, 168, 1, 1);
-IPAddress gateway(192, 168, 1, 1);
-IPAddress gatewayap(192, 168, 4, 1);
-IPAddress subnet(255, 255, 255, 0);
+//***************************************************
+// Create a credentials.h with the following defined
+//const char *Apssid = "ESP8266-Relay-Ant-Protection";
+//const char *Appassword = "3tawi-GP";
+//char ssid[30] = "";
+//char pass[30] = "";
+//IPAddress ip(192, 168, 1, 62);
+//IPAddress dns(192, 168, 1, 1);
+//IPAddress gateway(192, 168, 1, 1);
+//IPAddress gatewayap(192, 168, 4, 1);
+//IPAddress subnet(255, 255, 255, 0);
+//***************************************************
 
 File myfile;
 String text;
@@ -38,11 +38,14 @@ long savednum = 0, passnum = 0;
 
 #define DELAY_MS 5
 #define DELAYS_PER_SECOND (1000 / DELAY_MS)
+
+#ifdef DO_LATCH
 #define LATCH_TIMEOUT_SEC 10
 #define LATCH_TIMEOUT_COUNT (LATCH_TIMEOUT_SEC * DELAYS_PER_SECOND)
 
 int latchcounter5 = 0;
 int latchcounter6 = 0;
+#endif
 
 void (*resetFunc)(void) = 0; // declare reset function at address 0
 
@@ -111,6 +114,7 @@ void handleWifi()
   getWifi();
 }
 
+#ifdef DO_LATCH
 void setlatch_5()
 {
   handleRoot();
@@ -160,6 +164,7 @@ void clearlatch_6()
   EEPROM.write(6, state6);
   EEPROM.commit();
 }
+#endif
 
 void handlestate1()
 {
@@ -244,8 +249,10 @@ void handleallon()
   EEPROM.write(2, state2);
   EEPROM.write(3, state3);
   EEPROM.write(4, state4);
-  //EEPROM.write(5, state5);
-  //EEPROM.write(6, state6);
+#ifndef DO_LATCH
+  EEPROM.write(5, state5);
+  EEPROM.write(6, state6);
+#endif
   EEPROM.write(7, state7);
   EEPROM.write(8, state8);
   EEPROM.commit();
@@ -358,8 +365,13 @@ void setup()
   server.on("/LED2", handlestate2);
   server.on("/LED3", handlestate3);
   server.on("/LED4", handlestate4);
+#if DO_LATCH
   server.on("/LED5", setlatch_5);
   server.on("/LED6", setlatch_6);
+#else
+  server.on("/LED5", handlestate5);
+  server.on("/LED6", handlestate6);
+#endif
   server.on("/LED7", handlestate7);
   server.on("/LED8", handlestate8);
   server.on("/allon", handleallon);
@@ -375,6 +387,7 @@ void setup()
   getstate();
 }
 
+#ifdef DO_LATCH
 void handleCounters(void)
 {
   // check if the latch is active
@@ -399,10 +412,13 @@ void handleCounters(void)
     }
   }
 }
+#endif
 
 void loop()
 {
+#if DO_LATCH
   handleCounters();
+#endif
   server.handleClient();
   delay(DELAY_MS);
 }
