@@ -52,8 +52,8 @@ long savednum = 0, passnum = 0;
 #define LATCH_TIMEOUT_SEC 10
 #define LATCH_TIMEOUT_COUNT (LATCH_TIMEOUT_SEC * DELAYS_PER_SECOND)
 
-int latchcounter5 = 0;
-int latchcounter6 = 0;
+int latchcounter3 = 0;
+int latchcounter4 = 0;
 #endif
 
 void (*resetFunc)(void) = 0; // declare reset function at address 0
@@ -124,53 +124,53 @@ void handleWifi()
 }
 
 #ifdef DO_LATCH
-void setlatch_5()
+void setlatch_3()
 {
   handleRoot();
-  if ((latchcounter5 == 0) && (latchcounter6 == 0))
+  if ((latchcounter3 == 0) && (latchcounter4 == 0))
   {
-    latchcounter5 = LATCH_TIMEOUT_COUNT;
+    latchcounter3 = LATCH_TIMEOUT_COUNT;
 
-    state5 = HIGH;
-    digitalWrite(relay5, state5);
-    EEPROM.write(5, state5);
+    state3 = HIGH;
+    digitalWrite(relay3, state3);
+    EEPROM.write(3, state3);
     EEPROM.commit();
   }
 }
 
-void setlatch_6()
+void setlatch_4()
 {
   handleRoot();
-  if ((latchcounter5 == 0) && (latchcounter6 == 0))
+  if ((latchcounter3 == 0) && (latchcounter4 == 0))
   {
-    latchcounter6 = LATCH_TIMEOUT_COUNT;
+    latchcounter4 = LATCH_TIMEOUT_COUNT;
 
-    state6 = HIGH;
-    digitalWrite(relay6, state6);
-    EEPROM.write(6, state6);
+    state4 = HIGH;
+    digitalWrite(relay4, state4);
+    EEPROM.write(4, state4);
     EEPROM.commit();
   }
 }
 
-void clearlatch_5()
+void clearlatch_3()
 {
   handleRoot();
 
-  state5 = LOW;
+  state3 = LOW;
 
-  digitalWrite(relay5, state5);
-  EEPROM.write(5, state5);
+  digitalWrite(relay3, state3);
+  EEPROM.write(3, state3);
   EEPROM.commit();
 }
 
-void clearlatch_6()
+void clearlatch_4()
 {
   handleRoot();
 
-  state6 = LOW;
+  state4 = LOW;
 
-  digitalWrite(relay6, state6);
-  EEPROM.write(6, state6);
+  digitalWrite(relay4, state4);
+  EEPROM.write(4, state4);
   EEPROM.commit();
 }
 #endif
@@ -256,12 +256,12 @@ void handleallon()
   setrelaystate();
   EEPROM.write(1, state1);
   EEPROM.write(2, state2);
+#ifndef DO_LATCH
   EEPROM.write(3, state3);
   EEPROM.write(4, state4);
-#ifndef DO_LATCH
+#endif
   EEPROM.write(5, state5);
   EEPROM.write(6, state6);
-#endif
   EEPROM.write(7, state7);
   EEPROM.write(8, state8);
   EEPROM.commit();
@@ -372,15 +372,15 @@ void setup()
   server.on("/Mywifi", handleWifi);
   server.on("/LED1", handlestate1);
   server.on("/LED2", handlestate2);
-  server.on("/LED3", handlestate3);
-  server.on("/LED4", handlestate4);
 #if DO_LATCH
-  server.on("/LED5", setlatch_5);
-  server.on("/LED6", setlatch_6);
+  server.on("/LED3", setlatch_3);
+  server.on("/LED4", setlatch_4);
 #else
+  server.on("/LED5", handlestate3);
+  server.on("/LED6", handlestate4);
+#endif
   server.on("/LED5", handlestate5);
   server.on("/LED6", handlestate6);
-#endif
   server.on("/LED7", handlestate7);
   server.on("/LED8", handlestate8);
   server.on("/allon", handleallon);
@@ -400,24 +400,24 @@ void setup()
 void handleCounters(void)
 {
   // check if the latch is active
-  if (latchcounter5 > 0)
+  if (latchcounter3 > 0)
   {
     // decrement the count
-    latchcounter5--;
-    if (latchcounter5 == 0)
+    latchcounter3--;
+    if (latchcounter3 == 0)
     {
       // if expired, reset the latched relays and update the relay states
-      clearlatch_5();
+      clearlatch_3();
     }
   }
-  if (latchcounter6 > 0)
+  if (latchcounter4 > 0)
   {
     // decrement the count
-    latchcounter6--;
-    if (latchcounter6 == 0)
+    latchcounter4--;
+    if (latchcounter4 == 0)
     {
       // if expired, reset the latched relays and update the relay states
-      clearlatch_6();
+      clearlatch_4();
     }
   }
 }

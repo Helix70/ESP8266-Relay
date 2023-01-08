@@ -55,31 +55,31 @@ document.getElementById("datetime").innerHTML = (dow) +" "+ (dt.toLocaleString()
     document.getElementById("statled2").innerHTML = codeBlock2;
   }
     if (State3 != 0) {
-    var codeBlock3 = '<button type="submit" class="button-on">Relay3 ON</button>';
+    var codeBlock3 = '<button type="submit" class="button-on-latch">Ant SW Closing</button>';
     document.getElementById("statled3").innerHTML = codeBlock3;
   } else {
-    var codeBlock3 = '<button type="submit" class="button-off">Relay3 OFF</button>';
+    var codeBlock3 = '<button type="submit" class="button-off">Ant SW Closed</button>';
     document.getElementById("statled3").innerHTML = codeBlock3;
   }
     if (State4 != 0) {
-    var codeBlock4 = '<button type="submit" class="button-on">Relay4 ON</button>';
+    var codeBlock4 = '<button type="submit" class="button-on-latch">Ant SW Separating</button>';
     document.getElementById("statled4").innerHTML = codeBlock4;
   } else {
-    var codeBlock4 = '<button type="submit" class="button-off">Relay4 OFF</button>';
+    var codeBlock4 = '<button type="submit" class="button-off">Ant SW Separated</button>';
     document.getElementById("statled4").innerHTML = codeBlock4;
   }
     if (State5 != 0) {
-    var codeBlock5 = '<button type="submit" class="button-on-latch">Ant SW Closing</button>';
+    var codeBlock5 = '<button type="submit" class="button-on">Relay5 On</button>';
     document.getElementById("statled5").innerHTML = codeBlock5;
   } else {
-    var codeBlock5 = '<button type="submit" class="button-off">Ant SW Closed</button>';
+    var codeBlock5 = '<button type="submit" class="button-off">Relay5 Off</button>';
     document.getElementById("statled5").innerHTML = codeBlock5;
   }
     if (State6 != 0) {
-    var codeBlock6 = '<button type="submit" class="button-on-latch">Ant SW Separating</button>';
+    var codeBlock6 = '<button type="submit" class="button-on">Relay6 On</button>';
     document.getElementById("statled6").innerHTML = codeBlock6;
   } else {
-    var codeBlock6 = '<button type="submit" class="button-off">Ant SW Separated</button>';
+    var codeBlock6 = '<button type="submit" class="button-off">Relay6 Off</button>';
     document.getElementById("statled6").innerHTML = codeBlock6;
   }
     if (State7 != 0) {
