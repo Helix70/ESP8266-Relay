@@ -41,10 +41,10 @@ const char MAIN_page[] PROGMEM = R"=====(
           State8 = this.responseXML.getElementsByTagName("analog")[7].childNodes[0].nodeValue;
         }
         if (State1 != 0) {
-          var codeBlock1 = '<button type="submit" class="button-on">Flex On</button>';
+          var codeBlock1 = '<button type="submit" class="button-on">Flex PTT On</button>';
           document.getElementById("statled1").innerHTML = codeBlock1;
         } else {
-          var codeBlock1 = '<button type="submit" class="button-off">Flex Off</button>';
+          var codeBlock1 = '<button type="submit" class="button-off">Flex PTT Off</button>';
           document.getElementById("statled1").innerHTML = codeBlock1;
         }
         if (State2 != 0) {
@@ -55,10 +55,10 @@ const char MAIN_page[] PROGMEM = R"=====(
           document.getElementById("statled2").innerHTML = codeBlock2;
         }
         if (State3 != 0) {
-          var codeBlock3 = '<button type="submit" class="button-on">Flex PTT ON</button>';
+          var codeBlock3 = '<button type="submit" class="button-on">Flex On</button>';
           document.getElementById("statled3").innerHTML = codeBlock3;
         } else {
-          var codeBlock3 = '<button type="submit" class="button-off">Flex PTT OFF</button>';
+          var codeBlock3 = '<button type="submit" class="button-off">Flex Off</button>';
           document.getElementById("statled3").innerHTML = codeBlock3;
         }
         if (State4 != 0) {
