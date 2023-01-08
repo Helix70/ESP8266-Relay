@@ -13,16 +13,16 @@
 
 #define EEPROM_SIZE 9
 ESP8266WebServer server(80);
-int relay1 = 5, relay2 = 4, relay3 = 0, relay4 = 15;
-int relay5 = 13, relay6 = 12, relay7 = 14, relay8 = 16;
+int relay1 = 16, relay2 = 14, relay3 = 12, relay4 = 13;
+int relay5 = 15, relay6 = 0, relay7 = 4, relay8 = 5;
 int state1 = LOW, state2 = LOW, state3 = LOW, state4 = LOW;
 int state5 = LOW, state6 = LOW, state7 = LOW, state8 = LOW;
 
 #define DO_LATCH 1
 
-IPAddress ip(192, 168, 1, 62);
-IPAddress dns(192, 168, 1, 1);
-IPAddress gateway(192, 168, 1, 1);
+IPAddress ip(192, 168, 97, 62);
+IPAddress dns(192, 168, 97, 1);
+IPAddress gateway(192, 168, 97, 1);
 IPAddress gatewayap(192, 168, 4, 1);
 IPAddress subnet(255, 255, 255, 0);
 
