@@ -69,31 +69,31 @@ document.getElementById("datetime").innerHTML = (dow) +" "+ (dt.toLocaleString()
     document.getElementById("statled4").innerHTML = codeBlock4;
   }
     if (State5 != 0) {
-    var codeBlock5 = '<button type="submit" class="button-on">Relay5 On</button>';
+    var codeBlock5 = '<button type="submit" class="button-on">630M Transverter On</button>';
     document.getElementById("statled5").innerHTML = codeBlock5;
   } else {
-    var codeBlock5 = '<button type="submit" class="button-off">Relay5 Off</button>';
+    var codeBlock5 = '<button type="submit" class="button-off">630M Transverter Off</button>';
     document.getElementById("statled5").innerHTML = codeBlock5;
   }
     if (State6 != 0) {
-    var codeBlock6 = '<button type="submit" class="button-on">Relay6 On</button>';
+    var codeBlock6 = '<button type="submit" class="button-on">2200M Transverter On</button>';
     document.getElementById("statled6").innerHTML = codeBlock6;
   } else {
-    var codeBlock6 = '<button type="submit" class="button-off">Relay6 Off</button>';
+    var codeBlock6 = '<button type="submit" class="button-off">2200M Transverter Off</button>';
     document.getElementById("statled6").innerHTML = codeBlock6;
   }
     if (State7 != 0) {
-    var codeBlock7 = '<button type="submit" class="button-on">Relay7 ON</button>';
+    var codeBlock7 = '<button type="submit" class="button-on">Tuner Frequency Up On</button>';
     document.getElementById("statled7").innerHTML = codeBlock7;
   } else {
-    var codeBlock7 = '<button type="submit" class="button-off">Relay7 OFF</button>';
+    var codeBlock7 = '<button type="submit" class="button-off">Tuner Frequency Up Off</button>';
     document.getElementById("statled7").innerHTML = codeBlock7;
   }
     if (State8 != 0) {
-    var codeBlock8 = '<button type="submit" class="button-on">Relay8 ON</button>';
+    var codeBlock8 = '<button type="submit" class="button-on">Tuner Frequency Down On</button>';
     document.getElementById("statled8").innerHTML = codeBlock8;
   } else {
-    var codeBlock8 = '<button type="submit" class="button-off">Relay8 OFF</button>';
+    var codeBlock8 = '<button type="submit" class="button-off">Tuner Frequency Down Off</button>';
     document.getElementById("statled8").innerHTML = codeBlock8;
   }
   }
