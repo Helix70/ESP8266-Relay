@@ -63,9 +63,10 @@ void getWifi()
   WiFi.config(ip, dns, gateway, subnet);
   int xc = 0;
   int attempts = 0;
-
-  Serial.print("delaying start....");
-  while (xc < 40)
+  Serial.println("");
+  Serial.println("");
+  Serial.print("delaying start ");
+  while (xc < 120)
   {
     Serial.print(".");
     delay(500);
@@ -82,7 +83,7 @@ void getWifi()
     attempts++;
     Serial.print("attempt ");
     Serial.print(attempts);
-    while ((WiFi.status() != WL_CONNECTED) && (xc < 50))
+    while ((WiFi.status() != WL_CONNECTED) && (xc < 60))
     {
       Serial.print(".");
       delay(500);
