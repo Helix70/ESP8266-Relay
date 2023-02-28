@@ -61,14 +61,36 @@ void (*resetFunc)(void) = 0; // declare reset function at address 0
 void getWifi()
 {
   WiFi.config(ip, dns, gateway, subnet);
-  WiFi.begin(ssid, pass);
   int xc = 0;
-  while (WiFi.status() != WL_CONNECTED && xc < 50)
+  int attempts = 0;
+
+  Serial.print("delaying start....");
+  while (xc < 40)
   {
-    Serial.println("waiting....");
+    Serial.print(".");
     delay(500);
     xc++;
   }
+  Serial.println("*");
+  
+  while ((WiFi.status() != WL_CONNECTED) && (attempts <= 5))
+  {
+    WiFi.disconnect();
+    WiFi.begin(ssid, pass);
+
+    xc = 0;
+    attempts++;
+    Serial.print("attempt ");
+    Serial.print(attempts);
+    while ((WiFi.status() != WL_CONNECTED) && (xc < 50))
+    {
+      Serial.print(".");
+      delay(500);
+      xc++;
+    }
+    Serial.println("*");
+  }
+
   Serial.println("");
   if (WiFi.status() == WL_CONNECTED)
   {
@@ -81,6 +103,7 @@ void getWifi()
   }
   else
   {
+    WiFi.disconnect();
     Serial.println("Status= NOT WL_CONNECTED");
     WiFi.softAPConfig(ip, gatewayap, subnet);
     WiFi.softAP(Apssid, Appassword);
