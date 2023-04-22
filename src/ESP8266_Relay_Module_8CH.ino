@@ -18,13 +18,15 @@ int relay5 = 15, relay6 = 0, relay7 = 4, relay8 = 5;
 int state1 = LOW, state2 = LOW, state3 = LOW, state4 = LOW;
 int state5 = LOW, state6 = LOW, state7 = LOW, state8 = LOW;
 
-// Band Selector Branch
+//#define DO_LATCH 1
 
 IPAddress ip(192, 168, 97, 64);
 IPAddress dns(192, 168, 97, 1);
 IPAddress gateway(192, 168, 97, 1);
 IPAddress gatewayap(192, 168, 4, 1);
 IPAddress subnet(255, 255, 255, 0);
+
+// Band Selector Branch -  No Latching Relays
 
 //***************************************************
 // Create a credentials.h with the following defined
@@ -50,8 +52,8 @@ long savednum = 0, passnum = 0;
 #define LATCH_TIMEOUT_SEC 10
 #define LATCH_TIMEOUT_COUNT (LATCH_TIMEOUT_SEC * DELAYS_PER_SECOND)
 
-int latchcounter5 = 0;
-int latchcounter6 = 0;
+int latchcounter3 = 0;
+int latchcounter4 = 0;
 #endif
 
 void (*resetFunc)(void) = 0; // declare reset function at address 0
@@ -59,14 +61,37 @@ void (*resetFunc)(void) = 0; // declare reset function at address 0
 void getWifi()
 {
   WiFi.config(ip, dns, gateway, subnet);
-  WiFi.begin(ssid, pass);
   int xc = 0;
-  while (WiFi.status() != WL_CONNECTED && xc < 50)
+  int attempts = 0;
+  Serial.println("");
+  Serial.println("");
+  Serial.print("delaying start ");
+  while (xc < 120)
   {
-    Serial.println("waiting....");
+    Serial.print(".");
     delay(500);
     xc++;
   }
+  Serial.println("*");
+  
+  while ((WiFi.status() != WL_CONNECTED) && (attempts <= 5))
+  {
+    WiFi.disconnect();
+    WiFi.begin(ssid, pass);
+
+    xc = 0;
+    attempts++;
+    Serial.print("attempt ");
+    Serial.print(attempts);
+    while ((WiFi.status() != WL_CONNECTED) && (xc < 60))
+    {
+      Serial.print(".");
+      delay(500);
+      xc++;
+    }
+    Serial.println("*");
+  }
+
   Serial.println("");
   if (WiFi.status() == WL_CONNECTED)
   {
@@ -79,6 +104,7 @@ void getWifi()
   }
   else
   {
+    WiFi.disconnect();
     Serial.println("Status= NOT WL_CONNECTED");
     WiFi.softAPConfig(ip, gatewayap, subnet);
     WiFi.softAP(Apssid, Appassword);
@@ -122,53 +148,53 @@ void handleWifi()
 }
 
 #ifdef DO_LATCH
-void setlatch_5()
+void setlatch_3()
 {
   handleRoot();
-  if ((latchcounter5 == 0) && (latchcounter6 == 0))
+  if ((latchcounter3 == 0) && (latchcounter4 == 0))
   {
-    latchcounter5 = LATCH_TIMEOUT_COUNT;
+    latchcounter3 = LATCH_TIMEOUT_COUNT;
 
-    state5 = HIGH;
-    digitalWrite(relay5, state5);
-    EEPROM.write(5, state5);
+    state3 = HIGH;
+    digitalWrite(relay3, state3);
+    EEPROM.write(3, state3);
     EEPROM.commit();
   }
 }
 
-void setlatch_6()
+void setlatch_4()
 {
   handleRoot();
-  if ((latchcounter5 == 0) && (latchcounter6 == 0))
+  if ((latchcounter3 == 0) && (latchcounter4 == 0))
   {
-    latchcounter6 = LATCH_TIMEOUT_COUNT;
+    latchcounter4 = LATCH_TIMEOUT_COUNT;
 
-    state6 = HIGH;
-    digitalWrite(relay6, state6);
-    EEPROM.write(6, state6);
+    state4 = HIGH;
+    digitalWrite(relay4, state4);
+    EEPROM.write(4, state4);
     EEPROM.commit();
   }
 }
 
-void clearlatch_5()
+void clearlatch_3()
 {
   handleRoot();
 
-  state5 = LOW;
+  state3 = LOW;
 
-  digitalWrite(relay5, state5);
-  EEPROM.write(5, state5);
+  digitalWrite(relay3, state3);
+  EEPROM.write(3, state3);
   EEPROM.commit();
 }
 
-void clearlatch_6()
+void clearlatch_4()
 {
   handleRoot();
 
-  state6 = LOW;
+  state4 = LOW;
 
-  digitalWrite(relay6, state6);
-  EEPROM.write(6, state6);
+  digitalWrite(relay4, state4);
+  EEPROM.write(4, state4);
   EEPROM.commit();
 }
 #endif
@@ -254,12 +280,12 @@ void handleallon()
   setrelaystate();
   EEPROM.write(1, state1);
   EEPROM.write(2, state2);
+#ifndef DO_LATCH
   EEPROM.write(3, state3);
   EEPROM.write(4, state4);
-#ifndef DO_LATCH
+#endif
   EEPROM.write(5, state5);
   EEPROM.write(6, state6);
-#endif
   EEPROM.write(7, state7);
   EEPROM.write(8, state8);
   EEPROM.commit();
@@ -370,15 +396,15 @@ void setup()
   server.on("/Mywifi", handleWifi);
   server.on("/LED1", handlestate1);
   server.on("/LED2", handlestate2);
+#if DO_LATCH
+  server.on("/LED3", setlatch_3);
+  server.on("/LED4", setlatch_4);
+#else
   server.on("/LED3", handlestate3);
   server.on("/LED4", handlestate4);
-#if DO_LATCH
-  server.on("/LED5", setlatch_5);
-  server.on("/LED6", setlatch_6);
-#else
+#endif
   server.on("/LED5", handlestate5);
   server.on("/LED6", handlestate6);
-#endif
   server.on("/LED7", handlestate7);
   server.on("/LED8", handlestate8);
   server.on("/allon", handleallon);
@@ -398,24 +424,24 @@ void setup()
 void handleCounters(void)
 {
   // check if the latch is active
-  if (latchcounter5 > 0)
+  if (latchcounter3 > 0)
   {
     // decrement the count
-    latchcounter5--;
-    if (latchcounter5 == 0)
+    latchcounter3--;
+    if (latchcounter3 == 0)
     {
       // if expired, reset the latched relays and update the relay states
-      clearlatch_5();
+      clearlatch_3();
     }
   }
-  if (latchcounter6 > 0)
+  if (latchcounter4 > 0)
   {
     // decrement the count
-    latchcounter6--;
-    if (latchcounter6 == 0)
+    latchcounter4--;
+    if (latchcounter4 == 0)
     {
       // if expired, reset the latched relays and update the relay states
-      clearlatch_6();
+      clearlatch_4();
     }
   }
 }
