@@ -62,10 +62,10 @@ const char MAIN_page[] PROGMEM = R"=====(
           document.getElementById("statled3").innerHTML = codeBlock3;
         }
         if (State4 != 0) {
-          var codeBlock4 = '<button type="submit" class="button-on">RST Lighting Side ESP8266 Relay On</button>';
+          var codeBlock4 = '<button type="submit" class="button-on">2200m TVTR On</button>';
           document.getElementById("statled4").innerHTML = codeBlock4;
         } else {
-          var codeBlock4 = '<button type="submit" class="button-off">RST Lighting Side ESP8266 Relay Off</button>';
+          var codeBlock4 = '<button type="submit" class="button-off">2200m TVTR Off</button>';
           document.getElementById("statled4").innerHTML = codeBlock4;
         }
         if (State5 != 0) {
@@ -76,10 +76,10 @@ const char MAIN_page[] PROGMEM = R"=====(
           document.getElementById("statled5").innerHTML = codeBlock5;
         }
         if (State6 != 0) {
-          var codeBlock6 = '<button type="submit" class="button-on">Relay6 On</button>';
+          var codeBlock6 = '<button type="submit" class="button-on">Relay6 ON</button>';
           document.getElementById("statled6").innerHTML = codeBlock6;
         } else {
-          var codeBlock6 = '<button type="submit" class="button-off">Relay6 Off</button>';
+          var codeBlock6 = '<button type="submit" class="button-off">Relay6 OFF</button>';
           document.getElementById("statled6").innerHTML = codeBlock6;
         }
         if (State7 != 0) {
