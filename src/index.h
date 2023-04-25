@@ -41,59 +41,59 @@ const char MAIN_page[] PROGMEM = R"=====(
           State8 = this.responseXML.getElementsByTagName("analog")[7].childNodes[0].nodeValue;
         }
         if (State1 != 0) {
-          var codeBlock1 = '<button type="submit" class="button-on">30M On</button>';
+          var codeBlock1 = '<button type="submit" class="button-on">40M On</button>';
           document.getElementById("statled1").innerHTML = codeBlock1;
         } else {
-          var codeBlock1 = '<button type="submit" class="button-off">30M Off</button>';
+          var codeBlock1 = '<button type="submit" class="button-off">40M Off</button>';
           document.getElementById("statled1").innerHTML = codeBlock1;
         }
         if (State2 != 0) {
-          var codeBlock2 = '<button type="submit" class="button-on">20M On</button>';
+          var codeBlock2 = '<button type="submit" class="button-on">80M On</button>';
           document.getElementById("statled2").innerHTML = codeBlock2;
         } else {
-          var codeBlock2 = '<button type="submit" class="button-off">20M Off</button>';
+          var codeBlock2 = '<button type="submit" class="button-off">80M Off</button>';
           document.getElementById("statled2").innerHTML = codeBlock2;
         }
         if (State3 != 0) {
-          var codeBlock3 = '<button type="submit" class="button-on">17M On</button>';
+          var codeBlock3 = '<button type="submit" class="button-on">160M On</button>';
           document.getElementById("statled3").innerHTML = codeBlock3;
         } else {
-          var codeBlock3 = '<button type="submit" class="button-off">17M Off</button>';
+          var codeBlock3 = '<button type="submit" class="button-off">160M Off</button>';
           document.getElementById("statled3").innerHTML = codeBlock3;
         }
         if (State4 != 0) {
-          var codeBlock4 = '<button type="submit" class="button-on">15M On</button>';
+          var codeBlock4 = '<button type="submit" class="button-on">80/40M Dipole On</button>';
           document.getElementById("statled4").innerHTML = codeBlock4;
         } else {
-          var codeBlock4 = '<button type="submit" class="button-off">15M Off</button>';
+          var codeBlock4 = '<button type="submit" class="button-off">80/40M Dipole Off</button>';
           document.getElementById("statled4").innerHTML = codeBlock4;
         }
         if (State5 != 0) {
-          var codeBlock5 = '<button type="submit" class="button-on">12M On</button>';
+          var codeBlock5 = '<button type="submit" class="button-on">Relay 5 On</button>';
           document.getElementById("statled5").innerHTML = codeBlock5;
         } else {
-          var codeBlock5 = '<button type="submit" class="button-off">12M Off</button>';
+          var codeBlock5 = '<button type="submit" class="button-off">Relay 5 Off</button>';
           document.getElementById("statled5").innerHTML = codeBlock5;
         }
         if (State6 != 0) {
-          var codeBlock6 = '<button type="submit" class="button-on">10M On</button>';
+          var codeBlock6 = '<button type="submit" class="button-on">Relay 6 On</button>';
           document.getElementById("statled6").innerHTML = codeBlock6;
         } else {
-          var codeBlock6 = '<button type="submit" class="button-off">10M Off</button>';
+          var codeBlock6 = '<button type="submit" class="button-off">Relay 6 Off</button>';
           document.getElementById("statled6").innerHTML = codeBlock6;
         }
         if (State7 != 0) {
-          var codeBlock7 = '<button type="submit" class="button-on">Relay 7 ON</button>';
+          var codeBlock7 = '<button type="submit" class="button-on">Tune Up On</button>';
           document.getElementById("statled7").innerHTML = codeBlock7;
         } else {
-          var codeBlock7 = '<button type="submit" class="button-off">Relay 7 OFF</button>';
+          var codeBlock7 = '<button type="submit" class="button-off">Tune Up Off</button>';
           document.getElementById("statled7").innerHTML = codeBlock7;
         }
         if (State8 != 0) {
-          var codeBlock8 = '<button type="submit" class="button-on">Relay 8 ON</button>';
+          var codeBlock8 = '<button type="submit" class="button-on">Tune Down On</button>';
           document.getElementById("statled8").innerHTML = codeBlock8;
         } else {
-          var codeBlock8 = '<button type="submit" class="button-off">Relay 8 OFF</button>';
+          var codeBlock8 = '<button type="submit" class="button-off">Tune Down Off</button>';
           document.getElementById("statled8").innerHTML = codeBlock8;
         }
       }
